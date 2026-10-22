@@ -1,0 +1,197 @@
+openapi: 3.0.3
+info:
+  title: API Reservas de Pádel
+  description: API REST para autenticación, disponibilidad y reservas
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+tags:
+  - name: Auth
+  - name: Courts
+  - name: Availability
+  - name: Reservations
+
+paths:
+  /auth/register:
+    post:
+      tags: [Auth]
+      summary: Registrar usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password, confirmPassword]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string, minLength: 8 }
+                confirmPassword: { type: string, minLength: 8 }
+      responses:
+        '201': { description: Usuario creado e sesión iniciada }
+        '400': { description: Datos inválidos (formato, longitud, no coinciden) }
+        '409': { description: Correo ya registrado }
+
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Iniciar sesión
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string }
+      responses:
+        '200': { description: Sesión iniciada }
+        '401': { description: Credenciales inválidas (mensaje genérico) }
+
+  /auth/logout:
+    post:
+      tags: [Auth]
+      security: [{ cookieAuth: [] }]
+      summary: Cerrar sesión
+      responses:
+        '200': { description: Sesión cerrada }
+        '401': { description: No autenticado }
+
+  /courts:
+    get:
+      tags: [Courts]
+      summary: Listado de canchas (accesible sin sesión)
+      responses:
+        '200':
+          description: Lista de 5 canchas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  courts:
+                    type: array
+                    items:
+                      type: object
+                      required: [id, name]
+                      properties:
+                        id: { type: integer }
+                        name: { type: string, enum: ["Cancha Laureles","Cancha El Poblado","Cancha Belén","Cancha Robledo","Cancha Envigado"] }
+
+  /availability:
+    get:
+      tags: [Availability]
+      summary: Grilla de disponibilidad para cancha y fecha (requiere sesión)
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - in: query
+          name: courtId
+          required: true
+          schema: { type: integer }
+        - in: query
+          name: date
+          required: true
+          schema: { type: string, format: date }
+      responses:
+        '200':
+          description: Grilla de 24 bloques
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  courtId: { type: integer }
+                  date: { type: string, format: date }
+                  blocks:
+                    type: array
+                    items:
+                      type: object
+                      required: [hour, startTime, endTime, status]
+                      properties:
+                        hour: { type: integer, minimum: 0, maximum: 23 }
+                        startTime: { type: string, example: "14:00" }
+                        endTime: { type: string, example: "15:00" }
+                        status: { type: string, enum: ["available","reserved"] }
+        '401': { description: No autenticado }
+        '400': { description: Parámetros inválidos }
+
+  /reservations:
+    post:
+      tags: [Reservations]
+      summary: Crear reserva (requiere sesión, con re-validación)
+      security: [{ cookieAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [courtId, date, hour]
+              properties:
+                courtId: { type: integer }
+                date: { type: string, format: date }
+                hour: { type: integer, minimum: 0, maximum: 23 }
+      responses:
+        '201': { description: Reserva creada }
+        '400': { description: Datos inválidos / hora pasada / no alineada }
+        '401': { description: No autenticado }
+        '409': { description: Conflicto - bloque ya reservado o usuario ya tiene reserva vigente }
+    get:
+      tags: [Reservations]
+      summary: Mis reservas (futuras e historial)
+      security: [{ cookieAuth: [] }]
+      responses:
+        '200':
+          description: Listado de reservas del usuario
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  upcoming:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Reservation'
+                  past:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Reservation'
+        '401': { description: No autenticado }
+
+  /reservations/{id}/cancel:
+    post:
+      tags: [Reservations]
+      summary: Cancelar reserva futura
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        '200': { description: Reserva cancelada, bloque liberado }
+        '401': { description: No autenticado }
+        '403': { description: No pertenece al usuario }
+        '409': { description: No cancelable (pasada/iniciada) }
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionId
+  schemas:
+    Reservation:
+      type: object
+      required: [id, courtName, date, startHour, endHour, status]
+      properties:
+        id: { type: integer }
+        courtName: { type: string }
+        date: { type: string, format: date }
+        startHour: { type: integer }
+        endHour: { type: integer }
+        status: { type: string, enum: ["active","cancelled"] }
+        createdAt: { type: string, format: date-time }
+        cancelledAt: { type: string, format: date-time, nullable: true }
