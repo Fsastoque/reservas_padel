@@ -30,6 +30,32 @@ gestionan reservas de tiempo sobre un catálogo cerrado de canchas.
   cancha esté libre en ese horario (error `409` en caso de conflicto).
 - **Autenticación obligatoria** en todo flujo de reserva.
 
+## Cómo ejecutar en desarrollo
+
+Requisitos: Node.js 20.19+ o 22.12+ y npm.
+
+**Backend** (crea `db/padel.db`, aplica el esquema y siembra las 5 canchas al iniciar):
+
+```bash
+cd backend
+cp .env.example .env
+npm install
+npm run dev
+# API en http://localhost:3000/api
+```
+
+**Frontend** (en otra terminal):
+
+```bash
+cd frontend
+npm install
+npm run dev
+# App en http://localhost:5173
+```
+
+La guía detallada y los escenarios de validación están en
+[`specs/001-padel-court-booking/quickstart.md`](specs/001-padel-court-booking/quickstart.md).
+
 ## Constitución del proyecto
 
 Las reglas completas e inmutables del proyecto viven en
@@ -52,3 +78,5 @@ El proyecto sigue el flujo de desarrollo guiado por especificación:
 
 - `main` — base del proyecto con el scaffolding de Spec Kit.
 - `constitucion` — ratificación de la constitución v1.0.0.
+- `001-padel-court-booking` — especificación, plan, tareas e implementación de la
+  funcionalidad de reservas.

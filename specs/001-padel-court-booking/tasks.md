@@ -21,13 +21,13 @@
 
 **Purpose**: Project initialization and basic structure per plan.md
 
-- [ ] T001 Create project structure per implementation plan in repository root (`frontend/`, `backend/`, `db/` directories with subdirs)
-- [ ] T002 [P] Initialize backend with Node.js + TypeScript + Express in `backend/package.json`, `backend/tsconfig.json`
-- [ ] T003 [P] Initialize frontend with React + Vite + TypeScript + Tailwind CSS in `frontend/package.json`, `frontend/vite.config.ts`, `frontend/tailwind.config.*`
-- [ ] T004 [P] Add backend dependencies (`express`, `better-sqlite3`, `bcryptjs`, `express-session` or cookie session, `cors`, `dotenv`) in `backend/package.json`
-- [ ] T005 [P] Add frontend dependencies (`react`, `react-dom`, `react-router-dom`, `axios`, `tailwindcss`) in `frontend/package.json`
-- [ ] T006 [P] Configure linting/formatting (.eslintrc, .prettierrc) for backend and frontend
-- [ ] T007 Create `.gitignore` entries for `padel.db`, `node_modules/`, `dist/` (verify/update root `.gitignore`)
+- [X] T001 Create project structure per implementation plan in repository root (`frontend/`, `backend/`, `db/` directories with subdirs)
+- [X] T002 [P] Initialize backend with Node.js + TypeScript + Express in `backend/package.json`, `backend/tsconfig.json`
+- [X] T003 [P] Initialize frontend with React + Vite + TypeScript + Tailwind CSS in `frontend/package.json`, `frontend/vite.config.ts`, `frontend/tailwind.config.*`
+- [X] T004 [P] Add backend dependencies (`express`, `better-sqlite3`, `bcryptjs`, `express-session` or cookie session, `cors`, `dotenv`) in `backend/package.json`
+- [X] T005 [P] Add frontend dependencies (`react`, `react-dom`, `react-router-dom`, `axios`, `tailwindcss`) in `frontend/package.json`
+- [X] T006 [P] Configure linting/formatting (.eslintrc, .prettierrc) for backend and frontend
+- [X] T007 Create `.gitignore` entries for `padel.db`, `node_modules/`, `dist/` (verify/update root `.gitignore`)
 
 ---
 
@@ -37,15 +37,15 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T008 Create database schema in `db/schema.sql` with tables `usuarios` (email unique, password_hash, created_at), `canchas` (5 static), `reservas` (user_id, court_id, reservation_date, start_hour, end_hour, status, created_at, cancelled_at) with UNIQUE(court_id, reservation_date, start_hour), `sesiones` (id, user_id, data, expires_at, created_at) and indexes
-- [ ] T009 Create DB initialization script in `backend/src/config/db.ts` using better-sqlite3 to open `db/padel.db` and apply schema
-- [ ] T010 [P] Seed 5 canchas in `db/seed.sql` (Cancha Laureles, Cancha El Poblado, Cancha Belén, Cancha Robledo, Cancha Envigado) and apply on init if empty
-- [ ] T011 [P] Implement auth/session middleware in `backend/src/middlewares/auth.ts` (requireAuth, attachUser) using httpOnly cookie session
-- [ ] T012 [P] Implement error handler middleware in `backend/src/middlewares/errorHandler.ts` returning friendly messages without stack traces, mapping to 400/401/409
-- [ ] T013 [P] Setup Express app structure in `backend/src/app.ts` with CORS, json, session/cookies, routes mounting, error handler
-- [ ] T014 [P] Create shared types in `backend/src/types/` and `frontend/src/types/` (User, Court, Reservation, Block)
-- [ ] T015 [P] Setup frontend API client in `frontend/src/services/api.ts` with axios and cookie handling
-- [ ] T016 [P] Setup frontend routing in `frontend/src/App.tsx` with routes for auth, courts, booking, my-reservations
+- [X] T008 Create database schema in `db/schema.sql` with tables `usuarios` (email unique, password_hash, created_at), `canchas` (5 static), `reservas` (user_id, court_id, reservation_date, start_hour, end_hour, status, created_at, cancelled_at) with UNIQUE(court_id, reservation_date, start_hour), `sesiones` (id, user_id, data, expires_at, created_at) and indexes
+- [X] T009 Create DB initialization script in `backend/src/config/db.ts` using better-sqlite3 to open `db/padel.db` and apply schema
+- [X] T010 [P] Seed 5 canchas in `db/seed.sql` (Cancha Laureles, Cancha El Poblado, Cancha Belén, Cancha Robledo, Cancha Envigado) and apply on init if empty
+- [X] T011 [P] Implement auth/session middleware in `backend/src/middlewares/auth.ts` (requireAuth, attachUser) using httpOnly cookie session
+- [X] T012 [P] Implement error handler middleware in `backend/src/middlewares/errorHandler.ts` returning friendly messages without stack traces, mapping to 400/401/409
+- [X] T013 [P] Setup Express app structure in `backend/src/app.ts` with CORS, json, session/cookies, routes mounting, error handler
+- [X] T014 [P] Create shared types in `backend/src/types/` and `frontend/src/types/` (User, Court, Reservation, Block)
+- [X] T015 [P] Setup frontend API client in `frontend/src/services/api.ts` with axios and cookie handling
+- [X] T016 [P] Setup frontend routing in `frontend/src/App.tsx` with routes for auth, courts, booking, my-reservations
 
 **Checkpoint**: Foundation ready - user story implementation can now begin
 
@@ -58,12 +58,12 @@
 
 ### Implementation for User Story 1
 
-- [ ] T017 [P] [US1] Create Usuario model/service helpers in `backend/src/services/authService.ts` (normalize email lowercase, hash password with bcryptjs, validate email format, validate password >=8, compare hashes)
-- [ ] T018 [P] [US1] Implement auth routes/controllers in `backend/src/routes/auth.ts`, `backend/src/controllers/authController.ts` for POST `/api/auth/register`, POST `/api/auth/login`, POST `/api/auth/logout`
-- [ ] T019 [US1] Wire auth routes in `backend/src/app.ts` and enforce session creation on register/login
-- [ ] T020 [P] [US1] Create auth pages in `frontend/src/pages/Login.tsx`, `frontend/src/pages/Register.tsx` with form validation and friendly error messages
-- [ ] T021 [P] [US1] Create auth context/hook in `frontend/src/hooks/useAuth.tsx` to manage session state
-- [ ] T022 [US1] Add auth guards in `frontend/src/components/AuthGuard.tsx` and integrate with routes
+- [X] T017 [P] [US1] Create Usuario model/service helpers in `backend/src/services/authService.ts` (normalize email lowercase, hash password with bcryptjs, validate email format, validate password >=8, compare hashes)
+- [X] T018 [P] [US1] Implement auth routes/controllers in `backend/src/routes/auth.ts`, `backend/src/controllers/authController.ts` for POST `/api/auth/register`, POST `/api/auth/login`, POST `/api/auth/logout`
+- [X] T019 [US1] Wire auth routes in `backend/src/app.ts` and enforce session creation on register/login
+- [X] T020 [P] [US1] Create auth pages in `frontend/src/pages/Login.tsx`, `frontend/src/pages/Register.tsx` with form validation and friendly error messages
+- [X] T021 [P] [US1] Create auth context/hook in `frontend/src/hooks/useAuth.tsx` to manage session state
+- [X] T022 [US1] Add auth guards in `frontend/src/components/AuthGuard.tsx` and integrate with routes
 
 **Checkpoint**: User Story 1 complete - auth working independently
 
@@ -76,13 +76,13 @@
 
 ### Implementation for User Story 2
 
-- [ ] T023 [P] [US2] Create courts service in `backend/src/services/courtsService.ts` returning the 5 static courts
-- [ ] T024 [P] [US2] Create availability service in `backend/src/services/availabilityService.ts` to generate 24 blocks for (courtId, date) using local time, mark reserved if active reservation exists
-- [ ] T025 [US2] Implement routes/controllers for GET `/api/courts` (public) and GET `/api/availability` (requires auth) in `backend/src/routes/courts.ts`, `backend/src/routes/availability.ts`, `backend/src/controllers/*`
-- [ ] T026 [P] [US2] Create courts list page in `frontend/src/pages/Courts.tsx` showing 5 courts and date picker (calendar)
-- [ ] T027 [P] [US2] Create availability grid component in `frontend/src/components/AvailabilityGrid.tsx` showing 24 blocks with Available/Reserved styling
-- [ ] T028 [US2] Create booking page in `frontend/src/pages/Booking.tsx` combining courts+calendar+grid, redirect guests to login when trying to view grid
-- [ ] T029 [US2] Wire routes in frontend and ensure grid updates on court/date change
+- [X] T023 [P] [US2] Create courts service in `backend/src/services/courtsService.ts` returning the 5 static courts
+- [X] T024 [P] [US2] Create availability service in `backend/src/services/availabilityService.ts` to generate 24 blocks for (courtId, date) using local time, mark reserved if active reservation exists
+- [X] T025 [US2] Implement routes/controllers for GET `/api/courts` (public) and GET `/api/availability` (requires auth) in `backend/src/routes/courts.ts`, `backend/src/routes/availability.ts`, `backend/src/controllers/*`
+- [X] T026 [P] [US2] Create courts list page in `frontend/src/pages/Courts.tsx` showing 5 courts and date picker (calendar)
+- [X] T027 [P] [US2] Create availability grid component in `frontend/src/components/AvailabilityGrid.tsx` showing 24 blocks with Available/Reserved styling
+- [X] T028 [US2] Create booking page in `frontend/src/pages/Booking.tsx` combining courts+calendar+grid, redirect guests to login when trying to view grid
+- [X] T029 [US2] Wire routes in frontend and ensure grid updates on court/date change
 
 **Checkpoint**: User Story 2 complete - availability visible correctly by auth state
 
@@ -95,12 +95,12 @@
 
 ### Implementation for User Story 3
 
-- [ ] T030 [P] [US3] Create reservations service in `backend/src/services/reservationsService.ts` with helpers: isVigente(userId), hasVigenteReservation(userId), isBlockPast(date,hour), validateBooking
-- [ ] T031 [US3] Implement atomic booking in `backend/src/services/reservationsService.ts` using `BEGIN IMMEDIATE` transaction, check past/time, check vigente reservation, check existing reservation (UNIQUE), INSERT with status 'active', map UNIQUE violation to 409 friendly message
-- [ ] T032 [US3] Implement routes/controllers for POST `/api/reservations` in `backend/src/routes/reservations.ts`, `backend/src/controllers/reservationsController.ts` (require auth, return 400/401/409)
-- [ ] T033 [P] [US3] Add booking action to AvailabilityGrid in `frontend/src/components/AvailabilityGrid.tsx` (select available block, confirm)
-- [ ] T034 [US3] Add booking API call in `frontend/src/services/reservationsApi.ts` and handle 409 with friendly message, refresh grid on success
-- [ ] T035 [US3] Show user's vigente reservation info when trying to book second time
+- [X] T030 [P] [US3] Create reservations service in `backend/src/services/reservationsService.ts` with helpers: isVigente(userId), hasVigenteReservation(userId), isBlockPast(date,hour), validateBooking
+- [X] T031 [US3] Implement atomic booking in `backend/src/services/reservationsService.ts` using `BEGIN IMMEDIATE` transaction, check past/time, check vigente reservation, check existing reservation (UNIQUE), INSERT with status 'active', map UNIQUE violation to 409 friendly message
+- [X] T032 [US3] Implement routes/controllers for POST `/api/reservations` in `backend/src/routes/reservations.ts`, `backend/src/controllers/reservationsController.ts` (require auth, return 400/401/409)
+- [X] T033 [P] [US3] Add booking action to AvailabilityGrid in `frontend/src/components/AvailabilityGrid.tsx` (select available block, confirm)
+- [X] T034 [US3] Add booking API call in `frontend/src/services/reservationsApi.ts` and handle 409 with friendly message, refresh grid on success
+- [X] T035 [US3] Show user's vigente reservation info when trying to book second time
 
 **Checkpoint**: User Story 3 complete - bookings work with collision prevention
 
@@ -113,11 +113,11 @@
 
 ### Implementation for User Story 4
 
-- [ ] T036 [P] [US4] Extend reservations service in `backend/src/services/reservationsService.ts` with getUserReservations(userId) splitting upcoming/past, cancelReservation(reservationId, userId) validating ownership and future
-- [ ] T037 [US4] Implement GET `/api/reservations` and POST `/api/reservations/:id/cancel` in controllers/routes (require auth, enforce ownership)
-- [ ] T038 [P] [US4] Create My Reservations page in `frontend/src/pages/MyReservations.tsx` showing upcoming and past lists with court/name/date/hour
-- [ ] T039 [US4] Add cancel action with confirmation dialog in `frontend/src/pages/MyReservations.tsx` calling cancel API and refreshing
-- [ ] T040 [US4] Update availability after cancel (grid reflects freed block)
+- [X] T036 [P] [US4] Extend reservations service in `backend/src/services/reservationsService.ts` with getUserReservations(userId) splitting upcoming/past, cancelReservation(reservationId, userId) validating ownership and future
+- [X] T037 [US4] Implement GET `/api/reservations` and POST `/api/reservations/:id/cancel` in controllers/routes (require auth, enforce ownership)
+- [X] T038 [P] [US4] Create My Reservations page in `frontend/src/pages/MyReservations.tsx` showing upcoming and past lists with court/name/date/hour
+- [X] T039 [US4] Add cancel action with confirmation dialog in `frontend/src/pages/MyReservations.tsx` calling cancel API and refreshing
+- [X] T040 [US4] Update availability after cancel (grid reflects freed block)
 
 **Checkpoint**: All user stories functional independently
 
@@ -127,12 +127,12 @@
 
 **Purpose**: Improvements and validation across all stories
 
-- [ ] T041 [P] Ensure all API errors return friendly Spanish messages without stack traces (verify errorHandler)
-- [ ] T042 [P] Validate all protected routes require auth and return 401 appropriately
-- [ ] T043 [P] Ensure courts are exactly the 5 static courts (no CRUD exposed)
-- [ ] T044 [P] Add basic styling with Tailwind CSS for clean UI
-- [ ] T045 Run quickstart.md validation scenarios end-to-end
-- [ ] T046 Verify Constitution compliance (structure, no ORMs, no forbidden features, HTTP codes)
+- [X] T041 [P] Ensure all API errors return friendly Spanish messages without stack traces (verify errorHandler)
+- [X] T042 [P] Validate all protected routes require auth and return 401 appropriately
+- [X] T043 [P] Ensure courts are exactly the 5 static courts (no CRUD exposed)
+- [X] T044 [P] Add basic styling with Tailwind CSS for clean UI
+- [X] T045 Run quickstart.md validation scenarios end-to-end
+- [X] T046 Verify Constitution compliance (structure, no ORMs, no forbidden features, HTTP codes)
 
 ---
 

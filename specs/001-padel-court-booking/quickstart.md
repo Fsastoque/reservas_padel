@@ -17,10 +17,11 @@
 ## Setup (desarrollo)
 
 ### 1) Base de datos
+El backend crea `db/padel.db`, aplica `db/schema.sql` y siembra las 5 canchas
+desde `db/seed.sql` automáticamente al iniciar. No hace falta ejecutar SQL a mano.
+
+Verificación opcional (si tienes el CLI de SQLite):
 ```bash
-# Crear esquema
-sqlite3 db/padel.db < db/schema.sql
-# (opcional) verificar
 sqlite3 db/padel.db ".schema"
 ```
 

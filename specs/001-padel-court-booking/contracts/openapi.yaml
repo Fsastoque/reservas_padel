@@ -59,6 +59,23 @@ paths:
         '200': { description: Sesión cerrada }
         '401': { description: No autenticado }
 
+  /auth/me:
+    get:
+      tags: [Auth]
+      security: [{ cookieAuth: [] }]
+      summary: Usuario de la sesión actual
+      responses:
+        '200':
+          description: Sesión activa
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+        '401': { description: No autenticado }
+
   /courts:
     get:
       tags: [Courts]
@@ -134,7 +151,15 @@ paths:
                 date: { type: string, format: date }
                 hour: { type: integer, minimum: 0, maximum: 23 }
       responses:
-        '201': { description: Reserva creada }
+        '201':
+          description: Reserva creada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reservation:
+                    $ref: '#/components/schemas/Reservation'
         '400': { description: Datos inválidos / hora pasada / no alineada }
         '401': { description: No autenticado }
         '409': { description: Conflicto - bloque ya reservado o usuario ya tiene reserva vigente }
@@ -171,7 +196,16 @@ paths:
           required: true
           schema: { type: integer }
       responses:
-        '200': { description: Reserva cancelada, bloque liberado }
+        '200':
+          description: Reserva cancelada, bloque liberado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string }
+                  reservation:
+                    $ref: '#/components/schemas/Reservation'
         '401': { description: No autenticado }
         '403': { description: No pertenece al usuario }
         '409': { description: No cancelable (pasada/iniciada) }
@@ -183,11 +217,20 @@ components:
       in: cookie
       name: sessionId
   schemas:
-    Reservation:
+    User:
       type: object
-      required: [id, courtName, date, startHour, endHour, status]
+      required: [id, email]
       properties:
         id: { type: integer }
+        email: { type: string, format: email }
+        createdAt: { type: string, format: date-time }
+
+    Reservation:
+      type: object
+      required: [id, courtId, courtName, date, startHour, endHour, status]
+      properties:
+        id: { type: integer }
+        courtId: { type: integer }
         courtName: { type: string }
         date: { type: string, format: date }
         startHour: { type: integer }
